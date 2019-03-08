@@ -11,7 +11,7 @@
         <v-flex
           xs12
           v-for="card in cards"
-          v-bind:key="card"
+          v-bind:key="card.id"
         >
           <v-card
             color="blue-grey darken-2"
@@ -42,6 +42,6 @@ export default {
   }),
   props: {
     cards: Array
-  }
+  }  
 }
 </script>

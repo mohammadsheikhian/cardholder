@@ -22,15 +22,47 @@
 
 <script>
 import CardList from './CardList'
+
+console.log("1")
+
+var res;
+
+const userAction = async () => {
+  const response = await fetch('https://jsonplaceholder.typicode.com/users');
+  const myJson = await response.json(); //extract JSON from the http response
+  console.log(myJson)
+  res = myJson
+  // do something with myJson
+}
+userAction()
+//console.log(userAction())
+console.log("2")
+console.log(res)
+
+/*var m = []
+m = await fetch('https://jsonplaceholder.typicode.com/users')
+  .then(response => response.json())
+  .then(json =>   json)
+console.log("dsfdsf")
+
+console.log(m)
+*/
+
 export default {
   data: () => ({
     myCards: [],
     otherCards: []
   }),
+  mounted(){
+    fetch('https://jsonplaceholder.typicode.com/users')
+    .then(response => response.json())
+    .then(json => this.myCards = json)
+  },
   components: {
     CardList
   }
 }
+
 </script>
 
 <style>
