@@ -19,7 +19,7 @@
           >
             <v-card-title primary-title>
               <div>
-                <div class="headline">Unlimited music now</div>
+                <div class="headline">{{ card.name }}</div>
                 <span>Listen to your favorite artists and albums whenever and wherever, online and offline.</span>
               </div>
             </v-card-title>
@@ -42,6 +42,6 @@ export default {
   }),
   props: {
     cards: Array
-  }  
+  }
 }
 </script>
