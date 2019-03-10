@@ -4,7 +4,7 @@
       align-center
       justify-center
     >
-      <v-flex xs12>
+      <v-flex xs10 justify-center>
         <v-tabs fixed-tabs>
           <v-tab>My cards</v-tab>
           <v-tab>Other cards</v-tab>
