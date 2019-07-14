@@ -4,12 +4,15 @@
       align-center
       justify-center
     >
-      <v-flex xs10 justify-center>
+      <v-flex
+        xs10
+        justify-center
+      >
         <v-tabs fixed-tabs>
           <v-tab>My cards</v-tab>
           <v-tab>Other cards</v-tab>
           <v-tab-item>
-            <card-list v-bind:cards="myCards" />
+            <card-list v-if="myCards" v-bind:cards="myCards" />
           </v-tab-item>
           <v-tab-item>
             <card-list v-bind:cards="otherCards" />
@@ -50,11 +53,12 @@ console.log(m)
 
 export default {
   data: () => ({
-    myCards: [],
+    myCards: null,
     otherCards: []
   }),
   mounted () {
     fetch('https://jsonplaceholder.typicode.com/users').then(response => response.json()).then(json => { this.myCards = json })
+    // fetch('https://jsonplaceholder.typicode.com/users').then(response => response.json()).then(json => { this.otherCards = json })
   },
   components: {
     CardList
