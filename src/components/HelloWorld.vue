@@ -12,7 +12,10 @@
           <v-tab>My cards</v-tab>
           <v-tab>Other cards</v-tab>
           <v-tab-item>
-            <card-list v-if="myCards" v-bind:cards="myCards" />
+            <card-list
+              v-if="myCards"
+              v-bind:cards="myCards"
+            />
           </v-tab-item>
           <v-tab-item>
             <card-list v-bind:cards="otherCards" />
@@ -25,40 +28,29 @@
 
 <script>
 import CardList from './CardList'
-
-/* console.log('1')
-
-var res = 0
-
-const userAction = async () => {
-  const response = await fetch('https://jsonplaceholder.typicode.com/users')
-  const myJson = await response.json() // extract JSON from the http response
-  console.log(myJson)
-  res = myJson
-  // do something with myJson
-}
-userAction()
-// console.log(userAction())
-console.log('2')
-console.log(res)
-*/
-/* var m = []
-m = await fetch('https://jsonplaceholder.typicode.com/users')
-  .then(response => response.json())
-  .then(json =>   json)
-console.log("dsfdsf")
-
-console.log(m)
-*/
-
+import http from './../http.js'
 export default {
   data: () => ({
-    myCards: null,
-    otherCards: []
+    myCards: [],
+    otherCards: [],
+    tokenRequestHeaderKey: 'Authorization',
+    tokenLocalStorageKey: 'token',
+    resp: null,
+    token: null
   }),
-  mounted () {
-    fetch('https://jsonplaceholder.typicode.com/users').then(response => response.json()).then(json => { this.myCards = json })
-    // fetch('https://jsonplaceholder.typicode.com/users').then(response => response.json()).then(json => { this.otherCards = json })
+  async mounted () {
+    this.token = await http.fetchApi('http://localhost:8081/apiv1/tokens', 'CREATE', JSON.stringify({
+      'title': 'Member 1', 'password': '123456'
+    }))
+    console.log(this.token.token)
+    if (this.token.token) {
+      localStorage.setItem('token', this.token.token)
+    }
+    this.myCards = await http.fetchApi('http://localhost:8081/apiv1/cards?type_=my', 'LIST')
+    this.otherCards = await http.fetchApi('http://localhost:8081/apiv1/cards?type_=other', 'LIST')
+    await http.fetchApi('http://localhost:8081/apiv1/tokens', 'CREATE', JSON.stringify({
+      'title': 'Member 1', 'password': '123456'
+    }))
   },
   components: {
     CardList
