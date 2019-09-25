@@ -21,14 +21,14 @@
               lazy-validation
             >
               <v-text-field
-                v-model="username"
+                v-model="title"
                 :counter="10"
                 label="Username"
                 required
               ></v-text-field>
 
               <v-text-field
-                v-model="title"
+                v-model="password"
                 label="Password"
                 required
               ></v-text-field>
@@ -51,12 +51,26 @@
 
 <script>
 import http from '../http.js'
+import router from '../router.js'
 
 export default {
   name: 'Login',
+  data: () => ({
+    title: null,
+    password: null
+
+  }),
   methods: {
-    login () {
-      http.fetchApi('http://localhost:8081/apiv1/tokens', 'CREATE', JSON.stringify)
+    async login () {
+      var form = {
+        title: this.title,
+        password: this.password
+      }
+      this.token = await http.fetchApi('http://localhost:8081/apiv1/tokens', 'CREATE', JSON.stringify(form))
+      if (this.token.token) {
+        localStorage.setItem('token', this.token.token)
+      }
+      router.push('/')
     }
   }
 }

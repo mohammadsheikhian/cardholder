@@ -39,18 +39,8 @@ export default {
     token: null
   }),
   async mounted () {
-    this.token = await http.fetchApi('http://localhost:8081/apiv1/tokens', 'CREATE', JSON.stringify({
-      'title': 'Member 1', 'password': '123456'
-    }))
-    console.log(this.token.token)
-    if (this.token.token) {
-      localStorage.setItem('token', this.token.token)
-    }
     this.myCards = await http.fetchApi('http://localhost:8081/apiv1/cards?type_=my', 'LIST')
     this.otherCards = await http.fetchApi('http://localhost:8081/apiv1/cards?type_=other', 'LIST')
-    await http.fetchApi('http://localhost:8081/apiv1/tokens', 'CREATE', JSON.stringify({
-      'title': 'Member 1', 'password': '123456'
-    }))
   },
   components: {
     CardList
